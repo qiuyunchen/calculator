@@ -4,7 +4,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      displayValue: '0',
+      displayValue: 0,
       previousValue: null,
       operation: null,
       waitingForNewValue: false
@@ -12,10 +12,11 @@ class App extends Component {
   }
   
   handleClearClick = (e) =>{
-    console.log(e);
+    this.setState({displayValue: 0});
   }
   handlePercentClick = (e) =>{
-    console.log(e);
+    const newNum = this.state.displayValue/100;
+    this.setState({displayValue: newNum});
   }
   handleSignClick = (e) =>{
     console.log(e);
@@ -23,9 +24,22 @@ class App extends Component {
   handleDivideClick = (e) =>{
     console.log(e);
   }
+
   handleNumClick = (e) =>{
-    console.log(e);
+    const numDisplayed = this.state.displayValue;
+    const numPressed = e.target.innerText;
+    const op = this.state.operation;
+
+    if (op === null && numDisplayed === 0){
+      this.setState({displayValue: numPressed});
+    } else if (op !== null && numDisplayed !== 0){
+      this.setState({displayValue: numPressed});
+    } else {
+      const newNum = numDisplayed + numPressed;
+      this.setState({displayValue: parseInt(newNum)});
+    }
   }
+
   handleMultiplyClick = (e) =>{
     console.log(e);
   }
@@ -46,7 +60,7 @@ class App extends Component {
     return (
       <div className='wrapper'>
         <div className='container'>
-          <div className='row display'>0</div>
+          <div className='row display'>{this.state.displayValue}</div>
           <div className='row'>
             <div className='col button' onClick={e => this.handleClearClick(e)}>AC</div>
             <div className='col button' onClick={e => this.handlePercentClick(e)}>%</div>
