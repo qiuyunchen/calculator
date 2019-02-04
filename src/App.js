@@ -36,7 +36,7 @@ class App extends Component {
       this.setState({displayValue: numPressed});
     } else {
       const newNum = numDisplayed + numPressed;
-      this.setState({displayValue: parseInt(newNum)});
+      this.setState({displayValue: newNum});
     }
   }
 
