@@ -50,7 +50,11 @@ class App extends Component {
     console.log(e);
   }
   handleDecimalClick = (e) =>{
-    console.log(e);
+    const numDisplayed = this.state.displayValue;
+    if (!numDisplayed.toString().includes('.')){
+      const newNum = numDisplayed + '.';
+      this.setState({displayValue: newNum});
+    }
   }
   handleEqualClick = (e) =>{
     console.log(e);
