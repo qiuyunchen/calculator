@@ -10,6 +10,16 @@ class App extends Component {
       waitingForNewValue: false
     }
   }
+
+  handleAddClick = (e) =>{
+    const currentVal = this.state.displayValue;
+    this.setState({
+      operation: '+',
+      previousValue: currentVal,
+    }, ()=>{
+      console.log(this.state)
+    });
+  }
   
   handleClearClick = (e) =>{
     this.setState({
@@ -21,17 +31,43 @@ class App extends Component {
       console.log(this.state)
     });
   }
-  handlePercentClick = (e) =>{
-    const newNum = this.state.displayValue/100;
-    this.setState({displayValue: newNum}, ()=>{
-      console.log(this.state)
-    });
+
+  handleDecimalClick = (e) =>{
+    const numDisplayed = this.state.displayValue;
+    if (!numDisplayed.toString().includes('.')){
+      const newNum = numDisplayed + '.';
+      this.setState({displayValue: newNum}, ()=>{
+        console.log(this.state)
+      });
+    }
   }
-  handleSignClick = (e) =>{
-    console.log(e);
-  }
+
   handleDivideClick = (e) =>{
     console.log(e);
+  }
+
+  handleEqualClick = (e) =>{
+    let result = this.state.displayValue;
+    if (this.state.operation === '+'){
+      result = parseInt(this.state.previousValue) + parseInt(this.state.displayValue);
+    }
+    if (this.state.operation === '-'){
+      result = parseInt(this.state.previousValue) - parseInt(this.state.displayValue);
+    }
+    if (this.state.operation === 'x'){
+      result = parseInt(this.state.previousValue) * parseInt(this.state.displayValue);
+    }
+    this.setState({displayValue: result});
+  }
+
+  handleMultiplyClick = (e) =>{
+    const currentVal = this.state.displayValue;
+    this.setState({
+      operation: 'x',
+      previousValue: currentVal,
+    }, () => {
+      console.log(this.state)
+    });
   }
 
   handleNumClick = (e) =>{
@@ -55,9 +91,17 @@ class App extends Component {
     }
   }
 
-  handleMultiplyClick = (e) =>{
+  handlePercentClick = (e) =>{
+    const newNum = this.state.displayValue/100;
+    this.setState({displayValue: newNum}, ()=>{
+      console.log(this.state)
+    });
+  }
+
+  handleSignClick = (e) =>{
     console.log(e);
   }
+
   handleSubtractClick = (e) =>{
     const currentVal = this.state.displayValue;
     this.setState({
@@ -67,34 +111,6 @@ class App extends Component {
       console.log(this.state)
     });
     
-  }
-  handleAddClick = (e) =>{
-    const currentVal = this.state.displayValue;
-    this.setState({
-      operation: '+',
-      previousValue: currentVal,
-    }, ()=>{
-      console.log(this.state)
-    });
-  }
-  handleDecimalClick = (e) =>{
-    const numDisplayed = this.state.displayValue;
-    if (!numDisplayed.toString().includes('.')){
-      const newNum = numDisplayed + '.';
-      this.setState({displayValue: newNum}, ()=>{
-        console.log(this.state)
-      });
-    }
-  }
-  handleEqualClick = (e) =>{
-    let result = this.state.displayValue;
-    if (this.state.operation === '+'){
-      result = parseInt(this.state.previousValue) + parseInt(this.state.displayValue);
-    }
-    if (this.state.operation === '-'){
-      result = parseInt(this.state.previousValue) - parseInt(this.state.displayValue);
-    }
-    this.setState({displayValue: result});
   }
 
   render() {
