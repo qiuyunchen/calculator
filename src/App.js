@@ -101,7 +101,10 @@ class App extends Component {
   }
 
   handlePercentClick = (e) => {
-    const newNum = this.state.displayValue / 100;
+    const newNum = typeof this.state.displayValue === 'string'
+    ? parseFloat(this.state.displayValue)/100
+    : this.state.displayValue/100;
+    
     this.setState({ displayValue: newNum }, () => {
       console.log(this.state)
     });
