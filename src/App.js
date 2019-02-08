@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       displayValue: 0,
@@ -11,56 +11,65 @@ class App extends Component {
     }
   }
 
-  handleAddClick = (e) =>{
+  handleAddClick = (e) => {
     const currentVal = this.state.displayValue;
     this.setState({
       operation: '+',
       previousValue: currentVal,
-    }, ()=>{
+    }, () => {
       console.log(this.state)
     });
   }
-  
-  handleClearClick = (e) =>{
+
+  handleClearClick = (e) => {
     this.setState({
       displayValue: 0,
       previousValue: null,
       operation: null,
       waitingForNewValue: false,
-    }, ()=>{
+    }, () => {
       console.log(this.state)
     });
   }
 
-  handleDecimalClick = (e) =>{
+  handleDecimalClick = (e) => {
     const numDisplayed = this.state.displayValue;
-    if (!numDisplayed.toString().includes('.')){
+    if (!numDisplayed.toString().includes('.')) {
       const newNum = numDisplayed + '.';
-      this.setState({displayValue: newNum}, ()=>{
+      this.setState({ displayValue: newNum }, () => {
         console.log(this.state)
       });
     }
   }
 
-  handleDivideClick = (e) =>{
-    console.log(e);
+  handleDivideClick = (e) => {
+    const currentVal = this.state.displayValue;
+    this.setState({
+      operation: '/',
+      previousValue: currentVal,
+    }, () => {
+      console.log(this.state)
+    });
   }
 
-  handleEqualClick = (e) =>{
+  handleEqualClick = (e) => {
     let result = this.state.displayValue;
-    if (this.state.operation === '+'){
+    if (this.state.operation === '+') {
       result = parseInt(this.state.previousValue) + parseInt(this.state.displayValue);
     }
-    if (this.state.operation === '-'){
+    if (this.state.operation === '-') {
       result = parseInt(this.state.previousValue) - parseInt(this.state.displayValue);
     }
-    if (this.state.operation === 'x'){
+    if (this.state.operation === 'x') {
       result = parseInt(this.state.previousValue) * parseInt(this.state.displayValue);
     }
-    this.setState({displayValue: result});
+    if (this.state.operation === '/') {
+      result = parseInt(this.state.previousValue) / parseInt(this.state.displayValue);
+    }
+    this.setState({ displayValue: result });
   }
 
-  handleMultiplyClick = (e) =>{
+  handleMultiplyClick = (e) => {
     const currentVal = this.state.displayValue;
     this.setState({
       operation: 'x',
@@ -70,47 +79,47 @@ class App extends Component {
     });
   }
 
-  handleNumClick = (e) =>{
+  handleNumClick = (e) => {
     const numDisplayed = this.state.displayValue;
     const numPressed = e.target.innerText;
     const op = this.state.operation;
 
-    if (op === null && numDisplayed === 0){
-      this.setState({displayValue: numPressed}, ()=>{
+    if (op === null && numDisplayed === 0) {
+      this.setState({ displayValue: numPressed }, () => {
         console.log(this.state)
       });
-    } else if (op !== null && numDisplayed !== 0){
-      this.setState({displayValue: numPressed}, ()=>{
+    } else if (op !== null && numDisplayed !== 0) {
+      this.setState({ displayValue: numPressed }, () => {
         console.log(this.state)
       });
     } else {
       const newNum = numDisplayed + numPressed;
-      this.setState({displayValue: newNum}, ()=>{
+      this.setState({ displayValue: newNum }, () => {
         console.log(this.state)
       });
     }
   }
 
-  handlePercentClick = (e) =>{
-    const newNum = this.state.displayValue/100;
-    this.setState({displayValue: newNum}, ()=>{
+  handlePercentClick = (e) => {
+    const newNum = this.state.displayValue / 100;
+    this.setState({ displayValue: newNum }, () => {
       console.log(this.state)
     });
   }
 
-  handleSignClick = (e) =>{
+  handleSignClick = (e) => {
     console.log(e);
   }
 
-  handleSubtractClick = (e) =>{
+  handleSubtractClick = (e) => {
     const currentVal = this.state.displayValue;
     this.setState({
       operation: '-',
       previousValue: currentVal,
-    }, ()=>{
+    }, () => {
       console.log(this.state)
     });
-    
+
   }
 
   render() {
