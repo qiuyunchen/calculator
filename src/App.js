@@ -108,7 +108,17 @@ class App extends Component {
   }
 
   handleSignClick = (e) => {
-    console.log(e);
+    const currentVal = this.state.displayValue;
+    if (currentVal > 0) {
+      this.setState({ displayValue: -(currentVal) }, () => {
+        console.log(this.state)
+      })
+    }
+    if (currentVal < 0) {
+      this.setState({ displayValue: Math.abs(currentVal) }, () => {
+        console.log(this.state)
+      })
+    }
   }
 
   handleSubtractClick = (e) => {
