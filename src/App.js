@@ -48,10 +48,13 @@ class App extends Component {
   }
 
   handleDivideClick = (e) => {
-    const currentVal = this.state.displayValue;
+    const currentVal = typeof this.state.displayValue === 'string'
+      ? parseFloat(this.state.displayValue)
+      : this.state.displayValue;
     this.setState({
       operation: '/',
       previousValue: currentVal,
+      waitingForNewValue: true,
     }, () => {
       console.log(this.state)
     });
@@ -88,10 +91,14 @@ class App extends Component {
   }
 
   handleMultiplyClick = (e) => {
-    const currentVal = this.state.displayValue;
+    const currentVal = typeof this.state.displayValue === 'string'
+      ? parseFloat(this.state.displayValue)
+      : this.state.displayValue;
+
     this.setState({
       operation: 'x',
       previousValue: currentVal,
+      waitingForNewValue: true,
     }, () => {
       console.log(this.state)
     });
