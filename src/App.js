@@ -57,19 +57,32 @@ class App extends Component {
   }
 
   handleEqualClick = (e) => {
+    const previousValue = (typeof this.state.previousValue === 'string')
+      ? parseFloat(this.state.previousValue)
+      : this.state.previousValue;
+  
+    const displayValue = (typeof this.state.displayValue === 'string')
+      ? parseFloat(this.state.displayValue)
+      : this.state.displayValue;
+
     let result = this.state.displayValue;
+
     if (this.state.operation === '+') {
-      result = parseInt(this.state.previousValue) + parseInt(this.state.displayValue);
+      result = previousValue + displayValue;
     }
     if (this.state.operation === '-') {
-      result = parseInt(this.state.previousValue) - parseInt(this.state.displayValue);
+      (this.state.waitingForNewValue)
+      ? result = displayValue - previousValue
+      : result = previousValue - displayValue
     }
+
     if (this.state.operation === 'x') {
       result = parseInt(this.state.previousValue) * parseInt(this.state.displayValue);
     }
     if (this.state.operation === '/') {
       result = parseInt(this.state.previousValue) / parseInt(this.state.displayValue);
     }
+
     this.setState({ displayValue: result });
   }
 
