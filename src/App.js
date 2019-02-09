@@ -12,11 +12,15 @@ class App extends Component {
   }
 
   handleAddClick = (e) => {
-    const currentVal = this.state.displayValue;
+    const currentVal = typeof this.state.displayValue === 'string'
+    ? parseFloat(this.state.displayValue)
+    : this.state.displayValue;
+
     this.setState({
       operation: '+',
       previousValue: currentVal,
-    }, () => {
+      waitingForNewValue: true,
+    }, ()=>{
       console.log(this.state)
     });
   }
@@ -80,23 +84,20 @@ class App extends Component {
   }
 
   handleNumClick = (e) => {
-    const numDisplayed = this.state.displayValue;
     const numPressed = e.target.innerText;
-    const op = this.state.operation;
+    const numDisplayed = this.state.displayValue;
+    const waiting = this.state.waitingForNewValue;
 
-    if (op === null && numDisplayed === 0) {
-      this.setState({ displayValue: numPressed }, () => {
-        console.log(this.state)
-      });
-    } else if (op !== null && numDisplayed !== 0) {
-      this.setState({ displayValue: numPressed }, () => {
-        console.log(this.state)
+    if (numDisplayed === 0 && waiting === false){
+      this.setState({displayValue: numPressed});
+    } else if (waiting === true) {
+      this.setState({
+        waitingForNewValue: false,
+        displayValue: numPressed,
       });
     } else {
       const newNum = numDisplayed + numPressed;
-      this.setState({ displayValue: newNum }, () => {
-        console.log(this.state)
-      });
+      this.setState({displayValue: newNum});
     }
   }
 
@@ -104,7 +105,7 @@ class App extends Component {
     const newNum = typeof this.state.displayValue === 'string'
     ? parseFloat(this.state.displayValue)/100
     : this.state.displayValue/100;
-    
+
     this.setState({ displayValue: newNum }, () => {
       console.log(this.state)
     });
@@ -125,14 +126,17 @@ class App extends Component {
   }
 
   handleSubtractClick = (e) => {
-    const currentVal = this.state.displayValue;
+    const currentVal = typeof this.state.displayValue === 'string'
+    ? parseFloat(this.state.displayValue)
+    : this.state.displayValue;
+
     this.setState({
       operation: '-',
       previousValue: currentVal,
-    }, () => {
+      waitingForNewValue: true,
+    }, ()=>{
       console.log(this.state)
     });
-
   }
 
   render() {
