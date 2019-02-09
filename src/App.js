@@ -36,14 +36,15 @@ class App extends Component {
     });
   }
 
-  handleDecimalClick = (e) => {
-    const numDisplayed = this.state.displayValue;
-    if (!numDisplayed.toString().includes('.')) {
-      const newNum = numDisplayed + '.';
-      this.setState({ displayValue: newNum }, () => {
-        console.log(this.state)
-      });
-    }
+  handleDecimalClick = () => {
+    const wait = this.state.waitingForNewValue;
+    const currentVal = this.state.displayValue.toString().includes('.')
+      ? this.state.displayValue
+      : this.state.displayValue + '.'
+
+    wait
+    ? this.setState({displayValue: '0.', waitingForNewValue: false})
+    : this.setState({displayValue: currentVal});
   }
 
   handleDivideClick = (e) => {
@@ -83,7 +84,7 @@ class App extends Component {
       result = parseInt(this.state.previousValue) / parseInt(this.state.displayValue);
     }
 
-    this.setState({ displayValue: result });
+    this.setState({ displayValue: result}, ()=>console.log(this.state));
   }
 
   handleMultiplyClick = (e) => {
