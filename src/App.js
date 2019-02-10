@@ -4,7 +4,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayValue: 0,
+      displayValue: '0',
       previousValue: null,
       operation: null,
       waitingForNewValue: false
@@ -26,21 +26,57 @@ class App extends Component {
   handleAddClick = (e) => {
     const op = this.state.operation;
     const currentVal = this.state.displayValue;
-    const result = this.operation(this.state.previousValue, op, currentVal);
+    let result = currentVal;
 
-    this.state.operation
-      ? this.setState({
-        displayValue: result,
-        operation: '+',
-      })
-      : this.setState({
-        operation: '+',
-        previousValue: currentVal,
-        waitingForNewValue: true,
-      }, ()=>{
-        console.log(this.state)
-      });
-  }
+    if (this.state.operation !== null) { 
+      // if (this.state.previousValue !== null){
+        result = this.operation(this.state.previousValue, this.state.operation, currentVal);
+        this.setState({
+          displayValue: result,
+          previousValue: result,
+          operation: '+',
+          waitingForNewValue: true,
+        }, ()=> console.log(this.state))
+      // } else {
+      //   result = this.operation(this.state.displayValue, this.state.operation, currentVal);
+      //   this.setState({
+      //     displayValue: result,
+      //     previousValue: null,
+      //     operation: null,
+      //     waitingForNewValue: false,
+      //   }, ()=> console.log(this.state))
+      }
+      // setTimeout(()=> {
+      //   console.log(this.state)
+      // }, 3000)
+    // }
+
+    else {
+      this.setState({
+            operation: '+',
+            previousValue: currentVal,
+            waitingForNewValue: true,
+          })
+    
+    // this.state.previousValue
+    // ? this.setState({
+    //     displayValue: result,
+    //     previousValue: null,
+    //     operation: '+',
+    //     waitingForNewValue: true,
+    //   }, ()=>{
+    //     console.log(this.state);
+    //   })
+    // : this.setState({
+    //     operation: '+',
+    //     waitingForNewValue: true,
+    //   }, ()=>{
+    //     console.log(this.state);
+    //   })   
+    setTimeout(()=> {
+      console.log(this.state)
+    }, 3000)
+  }}
 
   handleClearClick = (e) => {
     this.setState({
@@ -126,16 +162,19 @@ class App extends Component {
     const numDisplayed = this.state.displayValue;
     const waiting = this.state.waitingForNewValue;
 
+
+
+
     if (numDisplayed === 0 && waiting === false){
-      this.setState({displayValue: numPressed});
+      this.setState({displayValue: numPressed}, ()=>console.log(this.state));
     } else if (waiting === true) {
       this.setState({
         waitingForNewValue: false,
         displayValue: numPressed,
-      });
+      }, ()=>console.log(this.state));
     } else {
       const newNum = numDisplayed + numPressed;
-      this.setState({displayValue: newNum});
+      this.setState({displayValue: newNum}, ()=>console.log(this.state));
     }
   }
 
