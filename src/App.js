@@ -11,18 +11,35 @@ class App extends Component {
     }
   }
 
-  handleAddClick = (e) => {
-    const currentVal = typeof this.state.displayValue === 'string'
-    ? parseFloat(this.state.displayValue)
-    : this.state.displayValue;
+  setNum = (num) =>{
+    if (typeof num === 'string') return parseFloat(num);
+    return num;
+  }
 
-    this.setState({
-      operation: '+',
-      previousValue: currentVal,
-      waitingForNewValue: true,
-    }, ()=>{
-      console.log(this.state)
-    });
+  operation = (num1, op, num2) =>{
+    if (op === '+') return this.setNum(num1) + this.setNum(num2);
+    if (op === '-') return this.setNum(num1) - this.setNum(num2);
+    if (op === 'x') return this.setNum(num1) * this.setNum(num2);
+    if (op === '/') return this.setNum(num1) / this.setNum(num2);
+  }
+  
+  handleAddClick = (e) => {
+    const op = this.state.operation;
+    const currentVal = this.state.displayValue;
+    const result = this.operation(this.state.previousValue, op, currentVal);
+
+    this.state.operation
+      ? this.setState({
+        displayValue: result,
+        operation: '+',
+      })
+      : this.setState({
+        operation: '+',
+        previousValue: currentVal,
+        waitingForNewValue: true,
+      }, ()=>{
+        console.log(this.state)
+      });
   }
 
   handleClearClick = (e) => {
