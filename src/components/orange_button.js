@@ -1,9 +1,9 @@
 import React from 'react';
 
 export default (props) =>{
-    const {sign} = props;
+    const {op, update} = props;
 
-    return <div className='orange button'>
-        {sign}
+    return <div className='orange button' onClick={update} name='op'>
+        {op}
     </div>
 }

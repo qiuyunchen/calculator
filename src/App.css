@@ -9,6 +9,7 @@
 /*  */
 
 .button {
+    width: 100%;
     background-color: #E0E0E6;
     font-size: 40px;
     text-align: center;
@@ -21,6 +22,7 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     display: block;
     font-family: sans-serif;
+    padding: 10px 0px;
   }
   
   button:active {
@@ -50,16 +52,6 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-  }
-  
-  .col {
-  width: calc((100% - 4px)/4);
-  padding: 10px 0px;
-  }
-  
-  .col-2 {
-    width: calc(50% - 1px);
-    padding: 10px 0px;
   }
   
   .display {
