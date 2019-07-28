@@ -6,10 +6,11 @@ import './App.css';
 
 class App extends Component {
   state = {
-      display: '0',
-      preVal: null,
-      op: null,
-      newDisplay: false
+    display: '0',
+    preVal: null,
+    op: null,
+    newDisplay: false,
+    calculate: false,
   }
 
   handleClick = e =>{
@@ -26,16 +27,20 @@ class App extends Component {
 
   clickedNum = val =>{
     const {display, newDisplay} = this.state;
-    if(newDisplay){
+    if(newDisplay){ // refresh display
       this.setState({display: val})
-    } else {
+    } else { // add to current display
       const str = display === '0'? val : display+val;
       this.setState({display: str});
     }
   }
 
+  ///////////////////////// work on this logic
   clickedOp = val =>{
-    this.setState({newDisplay:true})
+    const currOp = this.state.op;
+
+    // if currOp exists & 2 nums exists (newDisplay===false), we should calculate and update display
+    this.setState({op:val,newDisplay:true,})
   }
 
   clickedSymbol = val =>{
@@ -54,27 +59,21 @@ class App extends Component {
         
         <div className='col-3'>
           <div className='row'>
-            {
-              symbols.map( (e,i) =>{
+            {symbols.map( (e,i) =>{
                 return <GreySymbols symbol={e} update={this.handleClick} key={i} />
-              })
-            }
+              })}
           </div>
           <div className='row'>
-            {
-              nums.map( (e,i) =>{
+            {nums.map( (e,i) =>{
                 return <GreyNumber num={e} update={this.handleClick} key={i} />
-              })
-            }
+              })}
           </div>
         </div>
 
         <div className='col-1'>
-          {
-            ops.map( (e,i) =>{
+          {ops.map( (e,i) =>{
               return <OrangeButton op={e} update={this.handleClick} key={i} />
-            })
-          }
+            })}
         </div>
 
       </div>
