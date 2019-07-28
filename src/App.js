@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import OrangeButton from './components/orange_button';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -217,41 +219,56 @@ class App extends Component {
   }
 
   render() {
+    const signs = ['÷','x','-','+','=']
+
     return (
-      <div className='wrapper'>
-        <div className='container'>
-          <div className='row display'>{this.state.displayValue}</div>
-          <div className='row'>
-            <div className='col button' onClick={e => this.handleClearClick(e)}>AC</div>
-            <div className='col button' onClick={e => this.handlePercentClick(e)}>%</div>
-            <div className='col button' onClick={e => this.handleSignClick(e)}>±</div>
-            <div className='col orange' onClick={e => this.handleDivideClick(e)}>÷</div>
-          </div>
-          <div className='row'>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>7</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>8</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>9</div>
-            <div className='col orange' onClick={e => this.handleMultiplyClick(e)}>x</div>
-          </div>
-          <div className='row'>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>4</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>5</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>6</div>
-            <div className='col orange' onClick={e => this.handleSubtractClick(e)}>-</div>
-          </div>
-          <div className='row'>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>1</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>2</div>
-            <div className='col button' onClick={e => this.handleNumClick(e)}>3</div>
-            <div className='col orange' onClick={e => this.handleAddClick(e)}>+</div>
-          </div>
-          <div className='row'>
-            <div className='col-2 button' onClick={e => this.handleNumClick(e)}>0</div>
-            <div className='col button' onClick={e => this.handleDecimalClick(e)}>.</div>
-            <div className='col orange' onClick={e => this.handleEqualClick(e)}>=</div>
-          </div>
+      <div className='container'>
+        <div className='row display'>{this.state.displayValue}</div>
+        
+        <div className='col-3'>
+          []
         </div>
+        <div className='col-1'>
+          {
+            signs.map( (e,i) =>{
+              return <OrangeButton sign={e} key={i} />
+            })
+          }
+        </div>
+
+
+        {/* <div className='row'>
+          <div className='col button' onClick={e => this.handleClearClick(e)}>AC</div>
+          <div className='col button' onClick={e => this.handlePercentClick(e)}>%</div>
+          <div className='col button' onClick={e => this.handleSignClick(e)}>±</div>
+          <div className='col orange' onClick={e => this.handleDivideClick(e)}>÷</div>
+        </div>
+        <div className='row'>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>7</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>8</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>9</div>
+          <div className='col orange' onClick={e => this.handleMultiplyClick(e)}>x</div>
+        </div>
+        <div className='row'>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>4</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>5</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>6</div>
+          <div className='col orange' onClick={e => this.handleSubtractClick(e)}>-</div>
+        </div>
+        <div className='row'>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>1</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>2</div>
+          <div className='col button' onClick={e => this.handleNumClick(e)}>3</div>
+          <div className='col orange' onClick={e => this.handleAddClick(e)}>+</div>
+        </div>
+        <div className='row'>
+          <div className='col-2 button' onClick={e => this.handleNumClick(e)}>0</div>
+          <div className='col button' onClick={e => this.handleDecimalClick(e)}>.</div>
+          <div className='col orange' onClick={e => this.handleEqualClick(e)}>=</div>
+        </div> */}
+
       </div>
+
     )
   }
 }
