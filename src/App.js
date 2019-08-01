@@ -9,10 +9,10 @@ class App extends Component {
     display: '0',
     preVal: null,
     op: null,
-    newDisplay: false,
-    calculate: false,
+    newDisplay: true,
   }
 
+  // high level flow control based on type of button pressed
   handleClick = e =>{
     const val = e.target.innerText;
     const name = e.target.getAttribute('name');
@@ -25,27 +25,53 @@ class App extends Component {
     }
   }
 
+  // Type 1: nums including decimal pt
   clickedNum = val =>{
     const {display, newDisplay} = this.state;
     if(newDisplay){ // refresh display
-      this.setState({display: val})
+      this.setState({preVal:display, display:val, newDisplay:false})
     } else { // add to current display
-      const str = display === '0'? val : display+val;
+      const str = (display === '0')? val : display+val;
       this.setState({display: str});
     }
   }
 
-  ///////////////////////// work on this logic
+  // Type 2: operations aka +, -, x, /, =
   clickedOp = val =>{
-    const currOp = this.state.op;
-
-    // if currOp exists & 2 nums exists (newDisplay===false), we should calculate and update display
-    this.setState({op:val,newDisplay:true,})
+    const {display, preVal, op, newDisplay} = this.state;
+    if(preVal && op && display && newDisplay===false){
+      // Calculate!
+      this.calculate([preVal,display], [op,val])
+    } else {
+      this.setState({op:val,newDisplay:true})
+    }
   }
 
+  calculate = ([preVal,currVal], [op,newOp]) =>{
+    let result;
+    const a = parseFloat(preVal)
+    const b = parseFloat(currVal)
+    switch(op){
+      case '+': result = `${a + b}`; break;
+      case '-': result = `${a - b}`; break;
+      case 'x': result = `${a * b}`; break;
+      case '÷': result = `${a / b}`; break;
+      default: result = null;
+    }
+
+    if(newOp === '='){
+      this.setState({display:result, preVal:null, op:null, newDisplay:true})
+    } else {
+      this.setState({display:result, preVal:null, op:newOp, newDisplay:true})
+    }
+  }
+
+  // Type 3: misc symbols AC, %, +/-
   clickedSymbol = val =>{
     console.log('clicked', val)
   }
+
+  
 
   render() {
     const {display} = this.state;
@@ -84,126 +110,6 @@ class App extends Component {
 
 export default App;
 
-// setNum = (num) =>{
-  //   if (typeof num === 'string') return parseFloat(num);
-  //   return num;
-  // }
-
-  // operation = (num1, op, num2) =>{
-  //   if (op === '+') return this.setNum(num1) + this.setNum(num2);
-  //   if (op === '-') return this.setNum(num1) - this.setNum(num2);
-  //   if (op === 'x') return this.setNum(num1) * this.setNum(num2);
-  //   if (op === '/') return this.setNum(num1) / this.setNum(num2);
-  // }
-  
-  // handleAddClick = (e) => {
-  //   const op = this.state.operation;
-  //   const currentVal = this.state.displayValue;
-  //   let result = currentVal;
-
-  //   if (this.state.operation !== null) { 
-  //     // if (this.state.previousValue !== null){
-  //       result = this.operation(this.state.previousValue, this.state.operation, currentVal);
-  //       this.setState({
-  //         displayValue: result,
-  //         previousValue: result,
-  //         operation: '+',
-  //         waitingForNewValue: true,
-  //       }, ()=> console.log(this.state))
-  //     // } else {
-  //     //   result = this.operation(this.state.displayValue, this.state.operation, currentVal);
-  //     //   this.setState({
-  //     //     displayValue: result,
-  //     //     previousValue: null,
-  //     //     operation: null,
-  //     //     waitingForNewValue: false,
-  //     //   }, ()=> console.log(this.state))
-  //     }
-  //     // setTimeout(()=> {
-  //     //   console.log(this.state)
-  //     // }, 3000)
-  //   // }
-
-  //   else {
-  //     this.setState({
-  //           operation: '+',
-  //           previousValue: currentVal,
-  //           waitingForNewValue: true,
-  //         })
-    
-  //   // this.state.previousValue
-  //   // ? this.setState({
-  //   //     displayValue: result,
-  //   //     previousValue: null,
-  //   //     operation: '+',
-  //   //     waitingForNewValue: true,
-  //   //   }, ()=>{
-  //   //     console.log(this.state);
-  //   //   })
-  //   // : this.setState({
-  //   //     operation: '+',
-  //   //     waitingForNewValue: true,
-  //   //   }, ()=>{
-  //   //     console.log(this.state);
-  //   //   })   
-  //   setTimeout(()=> {
-  //     console.log(this.state)
-  //   }, 3000)
-  // }}
-
-  // handleClearClick = (e) => {
-  //   this.setState({
-  //     displayValue: 0,
-  //     previousValue: null,
-  //     operation: null,
-  //     waitingForNewValue: false,
-  //   }, () => {
-  //     console.log(this.state)
-  //   });
-  // }
-
-  // handleDecimalClick = () => {
-  //   const wait = this.state.waitingForNewValue;
-  //   const currentVal = this.state.displayValue.toString().includes('.')
-  //     ? this.state.displayValue
-  //     : this.state.displayValue + '.'
-
-  //   wait
-  //   ? this.setState({displayValue: '0.', waitingForNewValue: false})
-  //   : this.setState({displayValue: currentVal});
-  // }
-
-  // handleDivideClick = (e) => {
-  //   const currentVal = typeof this.state.displayValue === 'string'
-  //     ? parseFloat(this.state.displayValue)
-  //     : this.state.displayValue;
-  //   this.setState({
-  //     operation: '/',
-  //     previousValue: currentVal,
-  //     waitingForNewValue: true,
-  //   }, () => {
-  //     console.log(this.state)
-  //   });
-  // }
-
-  // handleEqualClick = (e) => {
-  //   const previousValue = (typeof this.state.previousValue === 'string')
-  //     ? parseFloat(this.state.previousValue)
-  //     : this.state.previousValue;
-  
-  //   const displayValue = (typeof this.state.displayValue === 'string')
-  //     ? parseFloat(this.state.displayValue)
-  //     : this.state.displayValue;
-
-  //   let result = this.state.displayValue;
-
-  //   if (this.state.operation === '+') {
-  //     result = previousValue + displayValue;
-  //   }
-  //   if (this.state.operation === '-') {
-  //     (this.state.waitingForNewValue)
-  //     ? result = displayValue - previousValue
-  //     : result = previousValue - displayValue
   //   }
 
   //   if (this.state.operation === 'x') {
