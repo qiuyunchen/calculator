@@ -56,7 +56,7 @@ class App extends Component {
       case '-': result = `${a - b}`; break;
       case 'x': result = `${a * b}`; break;
       case '÷': result = `${a / b}`; break;
-      default: result = null;
+      default: //do nothing
     }
 
     if(newOp === '='){
@@ -68,10 +68,44 @@ class App extends Component {
 
   // Type 3: misc symbols AC, %, +/-
   clickedSymbol = val =>{
-    console.log('clicked', val)
+    switch(val){
+      case 'AC': this.clearAllOrLast('AC'); break;
+      case 'C': this.clearAllOrLast('C'); break;
+      case '%': this.divideBy100(); break;
+      case '±': this.togglePosNegSign(); break;
+      default: //do nothing
+    }    
   }
 
+  /////////////// FIGURE OUT HOW TO CLEAR ONLY LAST NUMBER
+  clearAllOrLast = (type) =>{
+    if(type === 'AC'){
+      this.setState({
+        display: '0', 
+        preVal: null,
+        op: null,
+        newDisplay: true, 
+      })
+    } else {
+      // this.setState({})
+    }
+
+  }
+
+  /////////////// FIX this display bug
+  divideBy100 = () =>{
+    const {display} = this.state;
+    const newDisplay = `${parseFloat(display) / 100}`;
+    this.setState({display: newDisplay})
+  }
   
+  togglePosNegSign = () =>{
+    const {display} = this.state;
+    const newDisplay = `${parseFloat(display) * -1}`
+    this.setState({display: newDisplay})
+  }
+
+
 
   render() {
     const {display} = this.state;
@@ -109,84 +143,3 @@ class App extends Component {
 }
 
 export default App;
-
-  //   }
-
-  //   if (this.state.operation === 'x') {
-  //     result = parseInt(this.state.previousValue) * parseInt(this.state.displayValue);
-  //   }
-  //   if (this.state.operation === '/') {
-  //     result = parseInt(this.state.previousValue) / parseInt(this.state.displayValue);
-  //   }
-
-  //   this.setState({ displayValue: result}, ()=>console.log(this.state));
-  // }
-
-  // handleMultiplyClick = (e) => {
-  //   const currentVal = typeof this.state.displayValue === 'string'
-  //     ? parseFloat(this.state.displayValue)
-  //     : this.state.displayValue;
-
-  //   this.setState({
-  //     operation: 'x',
-  //     previousValue: currentVal,
-  //     waitingForNewValue: true,
-  //   }, () => {
-  //     console.log(this.state)
-  //   });
-  // }
-
-  // handleNumClick = (e) => {
-  //   const numPressed = e.target.innerText;
-  //   const numDisplayed = this.state.displayValue;
-  //   const waiting = this.state.waitingForNewValue;
-  //   if (numDisplayed === 0 && waiting === false){
-  //     this.setState({displayValue: numPressed}, ()=>console.log(this.state));
-  //   } else if (waiting === true) {
-  //     this.setState({
-  //       waitingForNewValue: false,
-  //       displayValue: numPressed,
-  //     }, ()=>console.log(this.state));
-  //   } else {
-  //     const newNum = numDisplayed + numPressed;
-  //     this.setState({displayValue: newNum}, ()=>console.log(this.state));
-  //   }
-  // }
-
-  // handlePercentClick = (e) => {
-  //   const newNum = typeof this.state.displayValue === 'string'
-  //   ? parseFloat(this.state.displayValue)/100
-  //   : this.state.displayValue/100;
-
-  //   this.setState({ displayValue: newNum }, () => {
-  //     console.log(this.state)
-  //   });
-  // }
-
-  // handleSignClick = (e) => {
-  //   const currentVal = this.state.displayValue;
-  //   if (currentVal > 0) {
-  //     this.setState({ displayValue: -(currentVal) }, () => {
-  //       console.log(this.state)
-  //     })
-  //   }
-  //   if (currentVal < 0) {
-  //     this.setState({ displayValue: Math.abs(currentVal) }, () => {
-  //       console.log(this.state)
-  //     })
-  //   }
-  // }
-
-  // handleSubtractClick = (e) => {
-  //   const currentVal = typeof this.state.displayValue === 'string'
-  //   ? parseFloat(this.state.displayValue)
-  //   : this.state.displayValue;
-
-  //   this.setState({
-  //     operation: '-',
-  //     previousValue: currentVal,
-  //     waitingForNewValue: true,
-  //   }, ()=>{
-  //     console.log(this.state)
-  //   });
-  // }
